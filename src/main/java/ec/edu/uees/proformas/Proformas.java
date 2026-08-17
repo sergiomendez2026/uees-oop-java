@@ -4,6 +4,8 @@
 
 package ec.edu.uees.proformas;
 
+import ec.edu.uees.proformas.modelo.Cliente;
+import ec.edu.uees.proformas.modelo.Producto;
 /**
  *
  * @author ASUS
@@ -11,6 +13,27 @@ package ec.edu.uees.proformas;
 public class Proformas {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+
+        Producto producto = new Producto(
+                "Laptop",
+                850.00,
+                2
+        );
+
+        Cliente cliente = new Cliente(
+                "Sergio",
+                "sergio@email.com",
+                "Guayaquil"
+        );
+
+        System.out.println(
+                "Stock inicial: " + producto.getStock()
+        );
+
+        cliente.comprar(producto);
+
+        System.out.println(
+                "Stock final: " + producto.getStock()
+        );
     }
 }
