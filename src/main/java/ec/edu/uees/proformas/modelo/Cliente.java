@@ -73,7 +73,7 @@ public class Cliente {
             producto.setStock(producto.getStock() - 1);
 
             System.out.println(
-                    nombre + " compró " + producto.getNombre()
+                    nombre + " compro " + producto.getNombre()
             );
         } else {
             System.out.println(
