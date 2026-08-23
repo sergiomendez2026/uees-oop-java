@@ -1,22 +1,153 @@
-# UEES - Programaci髇 Orientada a Objetos - Java
+# UEES - Programaci贸n Orientada a Objetos - Java
 
-Proyecto acad閙ico desarrollado en Java con Apache NetBeans y Maven.
+Proyecto desarrollado como parte de la asignatura de Programaci贸n Orientada a Objetos.
 
-## Contenido
+El sistema modela una empresa proveedora de tecnolog铆a y capacitaci贸n que puede atender tanto a personas naturales bajo un modelo B2C como a empresas bajo un modelo B2B.
 
-- Programaci髇 orientada a objetos
+## Objetivo
+
+Aplicar los fundamentos de Programaci贸n Orientada a Objetos mediante el modelado de clientes, productos y proformas utilizando encapsulaci贸n, herencia, asociaci贸n y composici贸n.
+
+## Semana 1
+
+Durante la Semana 1 se implementaron las clases:
+
+- `Producto`
+- `Cliente`
+
+### Conceptos aplicados
+
 - Clases y objetos
-- Encapsulaci髇
+- Encapsulaci贸n
+- Atributos privados
 - Getters y setters
-- UML
-- Herencia
-- Composici髇
+- Asociaci贸n entre objetos
 
-## Herramientas
+La clase `Producto` representa los art铆culos o servicios comercializados por la empresa.
+
+La clase `Cliente` representa al comprador, que puede ser una persona natural o una empresa.
+
+## Semana 2
+
+Durante la Semana 2 se ampli贸 el modelo incorporando herencia y composici贸n.
+
+### Herencia
+
+La clase `Producto` funciona como clase base para:
+
+- `ProductoFisico`
+- `ProductoDigital`
+
+`ProductoFisico` incorpora atributos espec铆ficos como:
+
+- peso
+- ubicaci贸n de almacenamiento
+
+`ProductoDigital` incorpora atributos como:
+
+- tama帽o en MB
+- URL de descarga
+
+### Composici贸n
+
+La clase `Proforma` contiene una colecci贸n de objetos `ItemProforma`.
+
+Cada `ItemProforma` relaciona:
+
+- un producto
+- una cantidad
+- el c谩lculo del subtotal
+
+La clase `Proforma` permite agregar diferentes 铆tems y calcular el total de la operaci贸n comercial.
+
+## Clases principales
+
+- `Cliente`
+- `Producto`
+- `ProductoFisico`
+- `ProductoDigital`
+- `ItemProforma`
+- `Proforma`
+
+## Modelo general
+
+```text
+Cliente
+   |
+   v
+Proforma
+   |
+   v
+ItemProforma
+   |
+   v
+Producto
+   ^
+   |
+   +-- ProductoFisico
+   |
+   +-- ProductoDigital
+```
+
+## Diagramas UML
+
+### Semana 1
+
+![UML Semana 1](docs/uml/producto_cliente.png)
+
+### Semana 2
+
+![UML Semana 2](docs/uml/uml_semana2_herencia_composicion.drawio.png)
+
+## Ejemplo de ejecuci贸n
+
+```text
+Producto fisico: Laptop
+Peso: 2.1 kg
+Ubicacion: Bodega A
+
+Producto digital: Curso Java
+Tamano: 1500.0 MB
+URL: https://ejemplo.com/curso
+
+Subtotal Laptop: $850.0
+Subtotal Curso: $240.0
+Total Proforma: $1090.0
+```
+
+## Ejecuci贸n
+
+En Apache NetBeans se puede ejecutar directamente la clase principal:
+
+```text
+ec.edu.uees.proformas.Proformas
+```
+
+Tambi茅n se puede compilar el proyecto con Maven:
+
+```bash
+mvn clean package
+```
+
+Y ejecutar desde la terminal:
+
+```bash
+mvn exec:java -Dexec.mainClass="ec.edu.uees.proformas.Proformas"
+```
+
+## Tecnolog铆as utilizadas
 
 - Java
+- Programaci贸n Orientada a Objetos
 - Apache NetBeans
 - Maven
+- UML
 - Git
 - GitHub
+- Windows
+- Fedora Linux
 - diagrams.net
+
+## Autor
+
+Sergio M茅ndez
