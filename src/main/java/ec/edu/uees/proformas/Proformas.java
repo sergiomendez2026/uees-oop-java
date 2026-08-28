@@ -5,6 +5,8 @@
 package ec.edu.uees.proformas;
 
 import ec.edu.uees.proformas.modelo.Cliente;
+import ec.edu.uees.proformas.modelo.ClienteMayorista;
+import ec.edu.uees.proformas.modelo.ClienteMinorista;
 import ec.edu.uees.proformas.modelo.ItemProforma;
 import ec.edu.uees.proformas.modelo.ProductoDigital;
 import ec.edu.uees.proformas.modelo.ProductoFisico;
@@ -14,11 +16,31 @@ public class Proformas {
 
     public static void main(String[] args) {
 
-        Cliente cliente = new Cliente(
-                "Sergio",
-                "sergio@email.com",
-                "Guayaquil"
+        Cliente clienteMayorista = new ClienteMayorista(
+        "Sergio",
+        "sergio@email.com",
+        "Guayaquil"
         );
+
+        Cliente clienteMinorista = new ClienteMinorista(
+        "Ana",
+        "ana@email.com",
+        "Quito"
+        );
+
+        System.out.println(
+                "Descuento cliente mayorista: "
+                + clienteMayorista.calcularDescuento() * 100
+                + "%"
+        );
+
+        System.out.println(
+                "Descuento cliente minorista: "
+                + clienteMinorista.calcularDescuento() * 100
+                + "%"
+        );
+
+        System.out.println();
 
         ProductoFisico laptop = new ProductoFisico(
                 "Laptop",
@@ -36,20 +58,35 @@ public class Proformas {
                 "https://ejemplo.com/curso"
         );
 
-        ItemProforma itemLaptop = new ItemProforma(
+        ItemProforma itemLaptopMayorista = new ItemProforma(
                 laptop,
                 1
         );
 
-        ItemProforma itemCurso = new ItemProforma(
+        ItemProforma itemCursoMayorista = new ItemProforma(
                 curso,
                 2
         );
 
-        Proforma proforma = new Proforma(cliente);
+        ItemProforma itemLaptopMinorista = new ItemProforma(
+                laptop,
+                1
+        );
 
-        proforma.agregarItem(itemLaptop);
-        proforma.agregarItem(itemCurso);
+        ItemProforma itemCursoMinorista = new ItemProforma(
+                curso,
+                2
+        );
+
+        Proforma proformaMayorista = new Proforma(clienteMayorista);
+
+        proformaMayorista.agregarItem(itemLaptopMayorista);
+        proformaMayorista.agregarItem(itemCursoMayorista);
+
+        Proforma proformaMinorista = new Proforma(clienteMinorista);
+
+        proformaMinorista.agregarItem(itemLaptopMinorista);
+        proformaMinorista.agregarItem(itemCursoMinorista);
 
         System.out.println("Producto fisico: " + laptop.getNombre());
         System.out.println("Peso: " + laptop.getPeso() + " kg");
@@ -71,16 +108,60 @@ public class Proformas {
 
         System.out.println();
 
+        System.out.println("=== PROFORMA CLIENTE MAYORISTA ===");
+
         System.out.println(
-                "Subtotal Laptop: $" + itemLaptop.calcularSubtotal()
+                "Cliente: " + clienteMayorista.getNombre()
         );
 
         System.out.println(
-                "Subtotal Curso: $" + itemCurso.calcularSubtotal()
+                "Descuento: "
+                + clienteMayorista.calcularDescuento() * 100
+                + "%"
         );
 
         System.out.println(
-                "Total Proforma: $" + proforma.calcularTotal()
+                "Subtotal Laptop: $"
+                + itemLaptopMayorista.calcularSubtotal()
+        );
+
+        System.out.println(
+                "Subtotal Curso: $"
+                + itemCursoMayorista.calcularSubtotal()
+        );
+
+        System.out.println(
+                "Total Proforma: $"
+                + proformaMayorista.calcularTotal()
+        );
+
+        System.out.println();
+
+        System.out.println("=== PROFORMA CLIENTE MINORISTA ===");
+
+        System.out.println(
+                "Cliente: " + clienteMinorista.getNombre()
+        );
+
+        System.out.println(
+                "Descuento: "
+                + clienteMinorista.calcularDescuento() * 100
+                + "%"
+        );
+
+        System.out.println(
+                "Subtotal Laptop: $"
+                + itemLaptopMinorista.calcularSubtotal()
+        );
+
+        System.out.println(
+                "Subtotal Curso: $"
+                + itemCursoMinorista.calcularSubtotal()
+        );
+
+        System.out.println(
+                "Total Proforma: $"
+                + proformaMinorista.calcularTotal()
         );
     }
 }

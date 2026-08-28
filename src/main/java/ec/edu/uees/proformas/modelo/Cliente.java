@@ -8,7 +8,7 @@ package ec.edu.uees.proformas.modelo;
  *
  * @author ASUS
  */
-public class Cliente {
+public abstract class Cliente {
 
     private String nombre;
     private String email;
@@ -81,4 +81,7 @@ public class Cliente {
             );
         }
     }
+
+    public abstract double calcularDescuento();
+
 }
