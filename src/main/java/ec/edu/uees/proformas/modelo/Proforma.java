@@ -38,12 +38,14 @@ public class Proforma {
     }
 
     public double calcularTotal() {
-        double total = 0;
+        double subtotal = 0;
 
         for (ItemProforma item : items) {
-            total += item.calcularSubtotal();
+            subtotal += item.calcularSubtotal();
         }
 
-        return total;
+        double descuento = cliente.calcularDescuento();
+
+        return subtotal * (1 - descuento);
     }
 }
