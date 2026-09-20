@@ -4,6 +4,8 @@
  */
 package ec.edu.uees.proformas.modelo;
 
+import ec.edu.uees.proformas.excepciones.StockInsuficienteException;
+
 /**
  *
  * @author ASUS
@@ -58,5 +60,25 @@ public class Producto {
     
     public boolean hayStock() {
         return stock > 0;
+    }
+    
+    public void venderUnidades(int cantidad)
+        throws StockInsuficienteException {
+
+    if (cantidad <= 0) {
+        throw new IllegalArgumentException(
+                "La cantidad debe ser mayor que cero."
+        );
+    }
+
+    if (cantidad > stock) {
+        throw new StockInsuficienteException(
+                "Stock insuficiente de " + nombre
+                + ". Disponible: " + stock
+                + ", solicitado: " + cantidad
+        );
+    }
+
+    stock -= cantidad;
     }
 }
