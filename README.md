@@ -695,27 +695,30 @@ para verificar la consistencia de las relaciones.
 
 ---
 
-# Fase 03 - Interfaz gráfica con JavaFX
+## Semana 6 - Interfaz gráfica y manejo de eventos
 
-El proyecto incorpora una interfaz gráfica desarrollada utilizando JavaFX.
+Durante la Semana 6 se integró el catálogo desarrollado en la Semana 5 con una interfaz gráfica implementada mediante **JavaFX**.
 
-La clase principal de la interfaz es:
+El objetivo de esta etapa fue permitir que el usuario pueda interactuar con las operaciones del sistema desde una interfaz gráfica, incorporando:
+
+- interfaz gráfica con JavaFX;
+- operaciones CRUD desde la interfaz;
+- manejo de eventos;
+- validación de datos de entrada;
+- mensajes de confirmación y error;
+- integración con las colecciones desarrolladas en la Semana 5;
+- integración con la capa de servicios;
+- persistencia mediante SQLite;
+- navegación entre los módulos del sistema.
+
+### Tecnología utilizada
+
+Para la interfaz gráfica se utilizó:
 
 ```text
-ec.edu.uees.proformas.ui.AplicacionJavaFX
-```
+JavaFX
 
-La aplicación dispone de tres módulos principales:
-
-```text
-Proformas
-Productos
-Clientes
-```
-
----
-
-# Vista de clientes
+## Vista de clientes
 
 La vista:
 
