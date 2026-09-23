@@ -4,10 +4,6 @@
  */
 package ec.edu.uees.proformas.modelo;
 
-/**
- *
- * @author ASUS
- */
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,16 +32,36 @@ public class Proforma {
 
         items.add(item);
     }
+    
+    public Cliente getCliente() {
+        return cliente;
+    }
+    
+    public List<ItemProforma> getItems() {
+        return new ArrayList<>(items);
+    }
 
-    public double calcularTotal() {
+    public double calcularSubtotal() {
         double subtotal = 0;
-
+    
         for (ItemProforma item : items) {
             subtotal += item.calcularSubtotal();
         }
 
-        double descuento = cliente.calcularDescuento();
+        return subtotal;
+    }
 
+    public double calcularDescuento() {
+        return cliente.calcularDescuento();
+    }
+
+    public double calcularTotal() {
+        
+        double subtotal = calcularSubtotal();
+        
+        double descuento =
+                cliente.calcularDescuento();
+        
         return subtotal * (1 - descuento);
     }
 }

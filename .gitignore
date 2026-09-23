@@ -9,3 +9,5 @@ nbproject/private/
 
 .DS_Store
 Thumbs.db
+data/*.db
+
