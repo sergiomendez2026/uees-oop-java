@@ -718,7 +718,7 @@ Para la interfaz gráfica se utilizó:
 ```text
 JavaFX
 
-## Vista de clientes
+# Vista de clientes
 
 La vista:
 
