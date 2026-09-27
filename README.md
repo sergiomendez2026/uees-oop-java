@@ -1,6 +1,6 @@
-# UEES - Programación Orientada a Objetos - Java
+# UEES - Programación Estructurada - Java
 
-Proyecto desarrollado como parte de la asignatura de **Programación Orientada a Objetos** de la Universidad de Especialidades Espíritu Santo (UEES).
+Proyecto desarrollado como parte de la asignatura de **Programación Estructurada** de la Universidad de Especialidades Espíritu Santo (UEES).
 
 El proyecto evoluciona incrementalmente durante las diferentes semanas de la asignatura.
 
@@ -717,6 +717,7 @@ Para la interfaz gráfica se utilizó:
 
 ```text
 JavaFX
+```
 
 # Vista de clientes
 
@@ -901,6 +902,289 @@ Esto confirma que los detalles pertenecientes a distintas proformas permanecen s
 
 ---
 
+# Semana 7 - Patrones de diseño, testing unitario y TDA lineales
+
+Durante la Semana 7 se incorporó una estructura de datos abstracta lineal implementada manualmente, el patrón Repository aplicado sobre dicha estructura y pruebas unitarias automatizadas con JUnit 5.
+
+El caso práctico seleccionado consiste en administrar una cola de clientes pendientes de atención para la generación de proformas.
+
+---
+
+## Problema seleccionado
+
+Los clientes deben ser atendidos respetando el orden en que llegan al sistema.
+
+Por esta razón se seleccionó una **cola FIFO**:
+
+```text
+FIFO
+First In, First Out
+
+Primero en entrar
+        |
+        v
+Primero en salir
+```
+
+Ejemplo:
+
+```text
+Llegada:
+
+Ana -> Luis -> Pedro
+
+Atención:
+
+Ana -> Luis -> Pedro
+```
+
+---
+
+## TDA Cola
+
+La estructura fue implementada manualmente mediante:
+
+```java
+Cliente[]
+```
+
+No se utilizaron implementaciones de cola proporcionadas directamente por las bibliotecas de Java como:
+
+```text
+Queue
+LinkedList
+ArrayDeque
+```
+
+La clase implementada es:
+
+```text
+ec.edu.uees.proformas.tda.ColaClientes
+```
+
+La cola utiliza internamente:
+
+```java
+private final Cliente[] elementos;
+private int frente;
+private int cantidad;
+```
+
+---
+
+## Operaciones fundamentales
+
+La estructura implementa las operaciones requeridas:
+
+| Operación | Método |
+|---|---|
+| Agregar elemento | `encolar()` |
+| Eliminar elemento | `desencolar()` |
+| Consultar siguiente | `consultarSiguiente()` |
+| Verificar si está vacía | `estaVacia()` |
+| Consultar cantidad | `getCantidad()` |
+
+---
+
+## Cola circular
+
+La implementación utiliza una cola circular de capacidad fija.
+
+La posición donde se inserta un nuevo elemento se calcula mediante:
+
+```java
+int posicionFinal =
+        (frente + cantidad) % elementos.length;
+```
+
+Cuando se elimina un elemento, el frente avanza utilizando:
+
+```java
+frente =
+        (frente + 1) % elementos.length;
+```
+
+Esto permite reutilizar las posiciones liberadas del arreglo sin desplazar físicamente todos sus elementos.
+
+### Complejidad
+
+| Operación | Complejidad |
+|---|---|
+| `encolar()` | O(1) |
+| `desencolar()` | O(1) |
+| `consultarSiguiente()` | O(1) |
+| `estaVacia()` | O(1) |
+| `getCantidad()` | O(1) |
+| Memoria | O(n) |
+
+---
+
+## Patrón Repository
+
+Sobre la cola manual se implementó:
+
+```text
+ec.edu.uees.proformas.repositorio.RepositorioAtencionClientes
+```
+
+La arquitectura utilizada es:
+
+```text
+Aplicación / Demo
+       |
+       v
+RepositorioAtencionClientes
+       |
+       v
+ColaClientes
+       |
+       v
+Cliente[]
+```
+
+El Repository oculta los detalles internos de la estructura de datos.
+
+La aplicación utiliza operaciones propias del dominio:
+
+```java
+registrarLlegada()
+atenderSiguiente()
+consultarSiguiente()
+estaVacio()
+cantidadPendiente()
+```
+
+mientras que las operaciones específicas de la cola permanecen encapsuladas.
+
+Correspondencia:
+
+| Repository | Cola |
+|---|---|
+| `registrarLlegada()` | `encolar()` |
+| `atenderSiguiente()` | `desencolar()` |
+| `consultarSiguiente()` | `consultarSiguiente()` |
+| `estaVacio()` | `estaVacia()` |
+| `cantidadPendiente()` | `getCantidad()` |
+
+---
+
+## Pruebas unitarias
+
+Para verificar automáticamente la implementación se utiliza:
+
+```text
+JUnit 5
+```
+
+Las pruebas se encuentran en:
+
+```text
+src/test/java
+```
+
+Se implementaron:
+
+```text
+ColaClientesTest
+RepositorioAtencionClientesTest
+```
+
+### ColaClientesTest
+
+Verifica:
+
+- estado inicial de la cola;
+- cantidad inicial;
+- inserción de elementos;
+- consulta del siguiente elemento;
+- comportamiento FIFO;
+- excepción al retirar de una cola vacía;
+- excepción al insertar en una cola llena;
+- reutilización circular del arreglo.
+
+### RepositorioAtencionClientesTest
+
+Verifica:
+
+- estado inicial del Repository;
+- registro de clientes;
+- consulta del siguiente cliente;
+- atención en orden FIFO;
+- excepción al atender un Repository vacío.
+
+---
+
+## Resultado de las pruebas
+
+Las pruebas se ejecutan mediante:
+
+```bash
+mvn test
+```
+
+Resultado obtenido:
+
+```text
+Tests run: 13
+Failures: 0
+Errors: 0
+Skipped: 0
+
+BUILD SUCCESS
+```
+
+Esto confirma el funcionamiento de la cola manual y de su integración con el patrón Repository.
+
+---
+
+## Demo Semana 7
+
+También se incorporó:
+
+```text
+ec.edu.uees.proformas.demo.DemoSemana7
+```
+
+La demostración registra tres clientes:
+
+```text
+1. Ana Torres
+2. Luis Perez
+3. Pedro Gomez
+```
+
+y los atiende respetando el orden FIFO:
+
+```text
+Ana Torres
+Luis Perez
+Pedro Gomez
+```
+
+Al finalizar:
+
+```text
+Cola vacia: true
+Cantidad pendiente: 0
+Orden FIFO verificado correctamente.
+```
+
+### Ejecutar la demo
+
+Primero compilar:
+
+```bash
+mvn test
+```
+
+Luego ejecutar:
+
+```bash
+java -cp target/classes ec.edu.uees.proformas.demo.DemoSemana7
+```
+
+---
+
 # QA funcional
 
 Durante el desarrollo se realizaron pruebas manuales de reglas de negocio.
@@ -950,7 +1234,7 @@ Un resultado vacío indica que no existen violaciones pendientes.
 
 ---
 
-# Arquitectura actual
+# Arquitectura de la aplicación principal
 
 ```text
 ┌─────────────────────────────────┐
@@ -1015,6 +1299,9 @@ src/main/java/ec/edu/uees/proformas
 │
 ├── Proformas.java
 │
+├── demo
+│   └── DemoSemana7.java
+│
 ├── excepciones
 │   └── StockInsuficienteException.java
 │
@@ -1037,15 +1324,33 @@ src/main/java/ec/edu/uees/proformas
 │   ├── RepositorioProductosSQLite.java
 │   └── RepositorioProformasSQLite.java
 │
+├── repositorio
+│   └── RepositorioAtencionClientes.java
+│
 ├── servicio
 │   ├── CatalogoClientes.java
 │   └── CatalogoProductos.java
+│
+├── tda
+│   └── ColaClientes.java
 │
 └── ui
     ├── AplicacionJavaFX.java
     ├── VistaClientes.java
     ├── VistaProductos.java
     └── VistaProformas.java
+```
+
+## Pruebas
+
+```text
+src/test/java/ec/edu/uees/proformas
+│
+├── repositorio
+│   └── RepositorioAtencionClientesTest.java
+│
+└── tda
+    └── ColaClientesTest.java
 ```
 
 ---
@@ -1165,7 +1470,9 @@ Actualmente incluye:
 ```text
 JavaFX Controls
 SQLite JDBC
+JUnit 5
 JavaFX Maven Plugin
+Maven Surefire Plugin
 ```
 
 ---
@@ -1175,6 +1482,7 @@ JavaFX Maven Plugin
 - Java 25
 - JavaFX 25.0.1
 - Maven
+- JUnit 5
 - SQLite
 - JDBC
 - SQLite JDBC
@@ -1224,23 +1532,66 @@ Durante la evolución del proyecto se han aplicado:
 - claves primarias;
 - claves foráneas;
 - modelo cabecera-detalle;
-- interfaz gráfica JavaFX.
+- interfaz gráfica JavaFX;
+- tipos de datos abstractos;
+- estructuras lineales;
+- cola FIFO;
+- cola circular;
+- arreglos;
+- patrón Repository sobre TDA;
+- pruebas unitarias;
+- JUnit 5;
+- assertions;
+- pruebas de excepciones.
 
 ---
 
 # Estado del proyecto
 
-La implementación actual se encuentra en la rama:
+La implementación correspondiente a la entrega de la Semana 7 se encuentra en la rama:
 
 ```text
-fase-03-interfaz-java
+entrega-semana7-java
 ```
 
-Esta rama incorpora la evolución desde el modelo inicial de Programación Orientada a Objetos hasta una aplicación gráfica con persistencia.
+Esta rama incorpora la evolución del proyecto hasta la Semana 7, incluyendo:
 
-El proyecto **continúa en desarrollo**.
+- aplicación JavaFX;
+- persistencia SQLite;
+- operaciones CRUD;
+- patrón Repository para persistencia;
+- TDA cola FIFO implementado manualmente;
+- cola circular sobre un arreglo;
+- patrón Repository aplicado sobre el TDA;
+- pruebas unitarias con JUnit 5;
+- demo funcional de atención de clientes.
 
-Las siguientes actividades y entregas académicas serán incorporadas incrementalmente conforme avancen los contenidos de la asignatura.
+La implementación de Semana 7 fue validada mediante:
+
+```text
+Tests run: 13
+Failures: 0
+Errors: 0
+Skipped: 0
+
+BUILD SUCCESS
+```
+
+La demo final confirmó el procesamiento FIFO:
+
+```text
+Ana Torres
+Luis Perez
+Pedro Gomez
+```
+
+Finalizando con:
+
+```text
+Cola vacia: true
+Cantidad pendiente: 0
+Orden FIFO verificado correctamente.
+```
 
 ---
 
