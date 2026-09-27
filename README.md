@@ -1548,10 +1548,10 @@ Durante la evolución del proyecto se han aplicado:
 
 # Estado del proyecto
 
-La implementación correspondiente a la entrega de la Semana 7 se encuentra en la rama:
+La implementación final correspondiente a la entrega de la Semana 7 se encuentra integrada en la rama principal:
 
 ```text
-entrega-semana7-java
+main
 ```
 
 Esta rama incorpora la evolución del proyecto hasta la Semana 7, incluyendo:
